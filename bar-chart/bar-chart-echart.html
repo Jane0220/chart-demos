@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <body style="height: 100%; margin: 0">
+    <div id="container" style="height: 100%"></div>
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+    <script>
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    let projectItem = ['项目启动','任务一','任务二','任务三','撰写总报告'],
+    projectItemStart = ['2022-01-01','2022-01-03','2022-01-03','2022-01-16','2022-01-19'],
+    projectItemEnd = ['2022-01-02','2022-01-12','2022-01-16','2022-01-19','2022-01-22'];
+    
+    projectItemStart2 = ['2022-01-01','2022-01-02','2022-01-03','2022-01-14','2022-01-19'],
+    projectItemEnd2 = ['2022-01-03','2022-01-09','2022-01-17','2022-01-20','2022-01-20'];
+
+    let projectItemStartValue = projectItemStart.map((item)=>{
+    return new Date(item).valueOf()
+    })
+    let projectItemEndValue = projectItemEnd.map((item)=>{
+    return new Date(item).valueOf()
+    })
+    let projectItemDuringValue = projectItemEnd.map((item,i)=>{
+    return new Date(item).valueOf()-projectItemStartValue[i]
+    })
+    let dateMin = projectItemStartValue.sort()[0];
+    let dateMax = projectItemEndValue.sort()[projectItemEndValue.length - 1];
+
+    let projectItemStartValue2 = projectItemStart2.map((item)=>{
+    return new Date(item).valueOf()
+    })
+    let projectItemEndValue2 = projectItemEnd2.map((item)=>{
+    return new Date(item).valueOf()
+    })
+    let projectItemDuringValue2 = projectItemEnd2.map((item,i)=>{
+    return new Date(item).valueOf()-projectItemStartValue2[i]
+    })
+    let dateMin2 = projectItemStartValue2.sort()[0];
+    let dateMax2 = projectItemEndValue2.sort()[projectItemEndValue2.length - 1];
+
+    var option = {
+      tooltip: {
+        trigger: 'axis',
+        formatter: function (params) {
+          console.log('params:', params)
+          var tar = params[1];
+          var real = params[3];
+          return tar.name + '<br>'
+            + '<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:' + tar.color + ';"></span>' + tar.seriesName + ' : ' + tar.value/(1000*60*60*24)+'天<br>'
+            + '<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:' + real.color + ';"></span>' + real.seriesName + ' : ' + real.value/(1000*60*60*24)+'天';
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '30%',
+        containLabel: true
+      },
+      yAxis: {
+        type: 'category',
+        data: projectItem.reverse()
+      },
+      xAxis: {
+        position: 'top',
+        type: 'value',
+        min: Math.min(dateMin, dateMin2),
+        max: Math.max(dateMax, dateMax2),
+        axisLabel: {
+          color: '#333', // 坐标轴文字颜色
+          formatter: function (param) {
+            console.log(param)
+            let date = new Date(param);
+            let dateLabel = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+            return dateLabel;
+          }
+        }
+      },
+      series: [
+        {
+          name: 'Placeholder',
+          type: 'bar',
+          stack: 'Total1',
+          itemStyle: {
+            borderColor: 'transparent',
+            color: 'transparent'
+          },
+          emphasis: {
+            itemStyle: {
+              borderColor: 'transparent',
+              color: 'transparent'
+            }
+          },
+          data: projectItemStartValue.reverse()
+        },
+        {
+          name: '预期时间',
+          type: 'bar',
+          stack: 'Total1',
+          data: projectItemDuringValue.reverse()
+        },
+        {
+          name: 'Placeholder2',
+          type: 'bar',
+          stack: 'Total2',
+          itemStyle: {
+            borderColor: 'transparent',
+            color: 'transparent'
+          },
+          emphasis: {
+            itemStyle: {
+              borderColor: 'transparent',
+              color: 'transparent'
+            }
+          },
+          data: projectItemStartValue2.reverse()
+        },
+        {
+          name: '实际时间',
+          type: 'bar',
+          stack: 'Total2',
+          data: projectItemDuringValue2.reverse()
+        }
+      ]
+    };
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+    </script>
+  </body>
+</html>
