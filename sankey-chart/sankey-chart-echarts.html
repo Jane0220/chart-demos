@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+  <style>
+    thead {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+
+  <script type="text/javascript">
+    const depth = 10
+    const chartWidth = 160 * (depth + 1) + 240 * depth + 40
+    // const chartWidth = 10000
+    const colors = [
+      '#26CEBA',
+      '#488BFF',
+      '#FFC069',
+      '#FF9C6E',
+      '#81C785',
+      '#B47FEC',
+      '#FF85C0',
+      '#A47D79',
+      '#AED581',
+      '#FEB7B7'
+    ];
+
+    function randonNumber(m, n)  {
+      return Math.ceil(Math.random() * (n-m+1) + m-1)
+    }
+    function getColor() {
+      return colors[randonNumber(1, colors.length) - 1]
+    }
+
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'svg',
+      useDirtyRect: false,
+      width: chartWidth
+    });
+    var app = {};
+    var option;
+
+//   myChart.showLoading();
+//   myChart.hideLoading();
+
+    const nodes = [
+      {
+        name: 'App启动0',
+        label: 'App启动',
+        depth: 0,
+        value: 300,
+        eventIndex: 0
+      },
+      {
+        name: '查看朋友圈1',
+        label: '查看朋友圈',
+        depth: 1,
+        value: 100,
+        eventIndex: 1
+      },
+      {
+        name: '聊天1',
+        label: '聊天',
+        depth: 1,
+        value: 90,
+        eventIndex: 2
+      },
+      {
+        name: '充值1',
+        label: '充值',
+        depth: 1,
+        value: 50,
+        eventIndex: 3
+      },
+      {
+        name: '查看朋友圈2',
+        label: '查看朋友圈',
+        depth: 2,
+        value: 70,
+        eventIndex: 1
+      },
+      {
+        name: '聊天2',
+        label: '聊天',
+        depth: 2,
+        value: 30,
+        eventIndex: 2
+      },
+      {
+        name: '充值2',
+        label: '充值',
+        depth: 2,
+        value: 10,
+        eventIndex: 3
+      },
+      {
+        name: '聊天3',
+        label: '聊天',
+        depth: 3,
+        value: 10,
+        eventIndex: 2
+      },
+      {
+        name: '聊天4',
+        label: '聊天',
+        depth: 4,
+        value: 9,
+        eventIndex: 2
+      },
+      {
+        name: '聊天5',
+        label: '聊天',
+        depth: 5,
+        value: 8,
+        eventIndex: 2
+      },
+      {
+        name: '聊天6',
+        label: '聊天',
+        depth: 6,
+        value: 7,
+        eventIndex: 2
+      },
+      {
+        name: '聊天7',
+        label: '聊天',
+        depth: 7,
+        value: 6,
+        eventIndex: 2
+      },
+      {
+        name: '聊天8',
+        label: '聊天',
+        depth: 8,
+        value: 5,
+        eventIndex: 2
+      },
+      {
+        name: '聊天9',
+        label: '聊天',
+        depth: 9,
+        value: 5,
+        eventIndex: 2
+      },
+      {
+        name: '聊天10',
+        label: '聊天',
+        depth: 10,
+        value: 5,
+        eventIndex: 2
+      }
+    ]
+    const styledNodes = nodes.map(item => {
+      // const color = getColor()
+      const color = colors[item.eventIndex]
+      return {
+        ...item,
+        itemStyle: {
+          color: color,
+          borderColor: color
+        }
+      }
+    })
+
+    var data1 = {
+      nodes: styledNodes,
+      links: [
+        {
+          source: 'App启动0',
+          target: '查看朋友圈1',
+          value: 100
+        },
+        {
+          source: 'App启动0',
+          target: '聊天1',
+          value: 90
+        },
+        {
+          source: 'App启动0',
+          target: '充值1',
+          value: 50
+        },
+        {
+          source: '查看朋友圈1',
+          target: '查看朋友圈2',
+          value: 60
+        },
+        {
+          source: '查看朋友圈1',
+          target: '聊天2',
+          value: 20
+        },
+        {
+          source: '查看朋友圈1',
+          target: '充值2',
+          value: 9
+        },
+        {
+          source: '聊天1',
+          target: '查看朋友圈2',
+          value: 50
+        },
+        {
+          source: '聊天1',
+          target: '聊天2',
+          value: 10
+        },
+        {
+          source: '聊天1',
+          target: '充值2',
+          value: 3
+        },
+        {
+          source: '充值1',
+          target: '查看朋友圈2',
+          value: 20
+        },
+        {
+          source: '充值1',
+          target: '聊天2',
+          value: 5
+        },
+        {
+          source: '充值1',
+          target: '充值2',
+          value: 1
+        },
+        {
+          source: '聊天2',
+          target: '聊天3',
+          value: 10
+        },
+        {
+          source: '聊天3',
+          target: '聊天4',
+          value: 9
+        },
+        {
+          source: '聊天4',
+          target: '聊天5',
+          value: 8
+        },
+        {
+          source: '聊天5',
+          target: '聊天6',
+          value: 7
+        },
+        {
+          source: '聊天6',
+          target: '聊天7',
+          value: 6
+        },
+        {
+          source: '聊天7',
+          target: '聊天8',
+          value: 5
+        },
+        {
+          source: '聊天8',
+          target: '聊天9',
+          value: 5
+        },
+        {
+          source: '聊天9',
+          target: '聊天10',
+          value: 5
+        },
+      ]
+    }
+    const nodes2 = [
+      {
+        name: '聊天10',
+        label: '聊天',
+        depth: 0,
+        value: 5,
+        eventIndex: 2
+      },
+      {
+        name: '聊天9',
+        label: '聊天',
+        depth: 1,
+        value: 5,
+        eventIndex: 2
+      },
+      {
+        name: '聊天8',
+        label: '聊天',
+        depth: 2,
+        value: 5,
+        eventIndex: 2
+      },
+      {
+        name: '聊天7',
+        label: '聊天',
+        depth: 3,
+        value: 6,
+        eventIndex: 2
+      },
+      {
+        name: '聊天6',
+        label: '聊天',
+        depth: 4,
+        value: 7,
+        eventIndex: 2
+      },
+      {
+        name: '聊天5',
+        label: '聊天',
+        depth: 5,
+        value: 8,
+        eventIndex: 2
+      },
+      {
+        name: '聊天4',
+        label: '聊天',
+        depth: 6,
+        value: 9,
+        eventIndex: 2
+      },
+      {
+        name: '聊天3',
+        label: '聊天',
+        depth: 7,
+        value: 10,
+        eventIndex: 2
+      },
+      {
+        name: '查看朋友圈2',
+        label: '查看朋友圈',
+        depth: 8,
+        value: 70,
+        eventIndex: 1
+      },
+      {
+        name: '聊天2',
+        label: '聊天',
+        depth: 8,
+        value: 30,
+        eventIndex: 2
+      },
+      {
+        name: '充值2',
+        label: '充值',
+        depth: 8,
+        value: 10,
+        eventIndex: 0
+      },
+      {
+        name: '查看朋友圈1',
+        label: '查看朋友圈',
+        depth: 9,
+        value: 100,
+        eventIndex: 1
+      },
+      {
+        name: '聊天1',
+        label: '聊天',
+        depth: 9,
+        value: 90,
+        eventIndex: 2
+      },
+      {
+        name: '充值1',
+        label: '充值',
+        depth: 9,
+        value: 50,
+        eventIndex: 0
+      },
+      {
+        name: '充值0',
+        label: '充值',
+        depth: 10,
+        value: 300,
+        eventIndex: 0
+      }
+    ]
+
+    const styledNodes2 = nodes2.map(item => {
+      // const color = getColor()
+      const color = colors[item.eventIndex]
+      return {
+        ...item,
+        itemStyle: {
+          color: color,
+          borderColor: color
+        }
+      }
+    })
+
+    var data2 = {
+      nodes: styledNodes2,
+      links: [
+        {
+          source: '查看朋友圈1',
+          target: '充值0',
+          value: 100
+        },
+        {
+          source: '聊天1',
+          target: '充值0',
+          value: 90
+        },
+        {
+          source: '充值1',
+          target: '充值0',
+          value: 50
+        },
+        {
+          source: '查看朋友圈2',
+          target: '查看朋友圈1',
+          value: 60
+        },
+        {
+          source: '聊天2',
+          target: '查看朋友圈1',
+          value: 20
+        },
+        {
+          source: '充值2',
+          target: '查看朋友圈1',
+          value: 9
+        },
+        {
+          source: '查看朋友圈2',
+          target: '聊天1',
+          value: 50
+        },
+        {
+          source: '聊天2',
+          target: '聊天1',
+          value: 10
+        },
+        {
+          source: '充值2',
+          target: '聊天1',
+          value: 3
+        },
+        {
+          source: '查看朋友圈2',
+          target: '充值1',
+          value: 20
+        },
+        {
+          source: '聊天2',
+          target: '充值1',
+          value: 5
+        },
+        {
+          source: '充值2',
+          target: '充值1',
+          value: 1
+        },
+        {
+          source: '聊天3',
+          target: '聊天2',
+          value: 10
+        },
+        {
+          source: '聊天4',
+          target: '聊天3',
+          value: 9
+        },
+        {
+          source: '聊天5',
+          target: '聊天4',
+          value: 8
+        },
+        {
+          source: '聊天6',
+          target: '聊天5',
+          value: 7
+        },
+        {
+          source: '聊天7',
+          target: '聊天6',
+          value: 6
+        },
+        {
+          source: '聊天8',
+          target: '聊天7',
+          value: 5
+        },
+        {
+          source: '聊天9',
+          target: '聊天8',
+          value: 5
+        },
+        {
+          source: '聊天10',
+          target: '聊天9',
+          value: 5
+        },
+        {
+          source: '聊天11',
+          target: '聊天10',
+          value: 5
+        },
+      ]
+    }
+
+    const useData = data1
+
+    function getOriginNode (nodeList, name) {
+      return nodeList.find(item => item.name === name)
+    }
+
+    console.log('chartWidth:', chartWidth)
+
+    myChart.setOption({
+      tooltip: {
+        trigger: 'item',
+        triggerOn: 'mousemove'
+      },
+      series: [
+        {
+          type: 'sankey',
+          draggable: false,
+          layoutIterations: 0,
+          nodeWidth: 160,
+          nodeAlign: 'justify',
+          top: 20,
+          left: 20,
+          bottom: 20,
+          right: 20,
+          data: useData.nodes,
+          links: useData.links,
+          emphasis: {
+            focus: 'none'
+          },
+          itemStyle: {
+            borderWidth: 1,
+            borderType: 'solid',
+            borderCap: 'round',
+            opacity: 0.5
+          },
+          lineStyle: {
+            color: 'source',
+            opacity: 0.2,
+            curveness: 0.5
+          },
+          label: { // 每个竖的柱子的文字
+            align: 'center',
+            rich: {
+              title: {
+                fontSize: 14,
+                lineHeight: 18,
+              },
+              value: {
+                fontSize: 12,
+                lineHeight: 14
+              }
+            },
+            formatter: function (item) {
+              return '{title|' + item.data.label + '}\n{value|' + item.data.value + '}'
+              // return item.data.label 
+            },
+            position: 'inside'
+          },
+          tooltip: {
+            formatter: function (params, ticket, callback) {
+              if (params.dataType === "node") {
+                // return params.data.label + ' ' + params.data.value + '个'
+                return '点击查看节点详情'
+              } else if (params.dataType === "edge") {
+                const fromNode = getOriginNode(useData.nodes, params.data.source)
+                const toNode = getOriginNode(useData.nodes, params.data.target)
+                if (fromNode && toNode) {
+                  const percentNum = (params.data.value * 100 / fromNode.value).toFixed(2)
+                  // return `${fromNode.label} 到 ${toNode.label}<br>
+                  // ${params.data.value}个<br>
+                  // ${percentNum}%`
+                  return `<table>
+                    <thead>
+                      <tr>
+                        <td>${fromNode.label} 到 ${toNode.label}</td>
+                        <td align="middle">个数</td>
+                        <td align="right">比例</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span style="background-color: blue; border-radius: 50%; width: 10px; height: 10px; display: inline-block;"></span> 留存</td>
+                        <td align="middle">${params.data.value}</td>
+                        <td align="right">${percentNum}%</td>
+                      </tr>
+                    </tbody>
+                  </table>`
+
+                } else {
+                  return `${params.data.source} 到 ${params.data.target}<br>
+                  ${params.data.value}个`
+                }
+              } else {
+                return ''
+              }
+            }
+          }
+        }
+      ]
+    });
+
+    myChart.on('click', 'series', function (params) {
+      if (params.dataType === "node") {
+        // 点击的是节点需要展示详情
+        console.log(params.data);
+        alert('模拟展示节点详情！')
+      }
+    })
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>
