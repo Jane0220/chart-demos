@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0; display: flex; flex-direction: row;">
+  <div id="container1" style="width: 50%; height: 100%;"></div>
+  <div id="container2" style="width: 50%; height: 100%;"></div>
+
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+
+  <script type="text/javascript">
+    var dom1 = document.getElementById('container1');
+    var dom2 = document.getElementById('container2');
+    var myChart1 = echarts.init(dom1, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var myChart2 = echarts.init(dom2, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+
+    const colors = [
+      '#26CEBA',
+      '#488BFF',
+      '#FFC069',
+      '#FF9C6E',
+      '#81C785',
+      '#B47FEC',
+      '#FF85C0',
+      '#A47D79',
+      '#AED581',
+      '#FEB7B7'
+    ];
+
+    const data1 = [
+      {
+        value: 51,
+        name: '30-35岁',
+        itemStyle: {
+          color: colors[3]
+        }
+      },
+      {
+        value: 3,
+        name: '其他',
+        itemStyle: {
+          color: colors[0]
+        }
+      },
+      {
+        value: 28,
+        name: '31-40岁',
+        itemStyle: {
+          color: colors[5]
+        }
+      },
+      {
+        value: 18,
+        name: '18-29岁',
+        itemStyle: {
+          color: colors[1]
+        }
+      }
+    ];
+
+    const data2 = [
+      {
+        value: 52,
+        name: '女生',
+        itemStyle: {
+          color: colors[3]
+        }
+      },
+      {
+        value: 48,
+        name: '男生',
+        itemStyle: {
+          color: colors[9]
+        }
+      }
+    ];
+
+    const chartBaseOptions = {
+      type: 'pie',
+      radius: '80%',
+      colorBy: 'data',
+      startAngle: 180,
+      label: {
+        position: 'inner',
+        fontSize: 14,
+        formatter: '{b}\n{d}%',
+        color: 'white'
+      },
+      labelLine: {
+        show: false
+      },
+      silent: true,
+      // animationType: 'scale',
+      animationType: 'expansion',
+      animationDuration: 3000
+    }
+
+    var option1 = {
+      series: [{
+        ...chartBaseOptions,
+        data: data1
+      }]
+    };
+    
+    var option2 = {
+      series: [{
+        ...chartBaseOptions,
+        data: data2
+      }]
+    };
+
+    // setTimeout(() => {
+      myChart1.setOption(option1);
+      myChart2.setOption(option2);
+    // }, 2000)
+
+    window.addEventListener('resize', () => {
+      myChart1.resize
+      myChart2.resize
+    });
+  </script>
+</body>
+</html>

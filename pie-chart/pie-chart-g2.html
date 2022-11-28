@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>饼图选中交互</title>
+  </head>
+  <body style="height: 100%; margin: 0; display: flex; flex-direction: row;">
+    <div id="container1" style="width: 50%; height: 100%;"></div>
+    <div id="container2" style="width: 50%; height: 100%;"></div>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.2.7/dist/g2.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.11.1/dist/data-set.js"></script>
+    <script>
+    const colors = [
+      '#26CEBA',
+      '#488BFF',
+      '#FFC069',
+      '#FF9C6E',
+      '#81C785',
+      '#B47FEC',
+      '#FF85C0',
+      '#A47D79',
+      '#AED581',
+      '#FEB7B7'
+    ];
+    const data1 = [
+      {
+        value: 51,
+        name: '30-35岁'
+      },
+      {
+        value: 3,
+        name: '其他'
+      },
+      {
+        value: 28,
+        name: '31-40岁'
+      },
+      {
+        value: 18,
+        name: '18-29岁'
+      }
+    ];
+    const data2 = [
+      {
+        value: 52,
+        name: '女生'
+      },
+      {
+        value: 48,
+        name: '男生'
+      }
+    ];
+    const chart1 = new G2.Chart({
+      container: 'container1',
+      autoFit: true,
+      height: 500,
+    });
+    chart1.data(data1);
+
+    const chart2 = new G2.Chart({
+      container: 'container1',
+      autoFit: true,
+      height: 500,
+    });
+    chart2.data(data2);
+
+    // chart.coordinate('theta', {
+    //   radius: 0.75
+    // },
+    // actions: [['transpose']]
+    // );
+    chart1.coordinate({
+      type: 'theta',
+      cfg: {
+        radius: 0.85,
+      },
+      actions: [['rotate', -Math.PI/2]],
+    });
+    chart1.tooltip(false);
+    chart1.legend(false);
+
+    chart2.coordinate({
+      type: 'theta',
+      cfg: {
+        radius: 0.85,
+      },
+      actions: [['rotate', -Math.PI/2]],
+    });
+    chart2.tooltip(false);
+    chart2.legend(false);
+
+    chart1
+      .interval()
+      .adjust('stack')
+      .position('value')
+      .color('name', [colors[3], colors[0], colors[5], colors[1]])
+      .style({ opacity: 0.4 })
+      .state({
+        active: {
+          style: (element) => {
+            const shape = element.shape;
+            return {
+              matrix: G2.Util.zoom(shape, 1.1),
+            }
+          }
+        }
+      })
+      .label('name', (val) => {
+        return {
+          offset: -60,
+          autoRotate: false,
+          style: {
+            fontSize: 14
+          },
+          content: (obj) => {
+            return obj.name + '\n' + obj.value + '%';
+          },
+        };
+      });
+
+    chart2
+      .interval()
+      .adjust('stack')
+      .position('value')
+      .color('name', [colors[3], colors[9]])
+      .style({ opacity: 0.4 })
+      .state({
+        active: {
+          style: (element) => {
+            const shape = element.shape;
+            return {
+              matrix: G2.Util.zoom(shape, 1.1),
+            }
+          }
+        }
+      })
+      .label('name', (val) => {
+        return {
+          offset: -30,
+          autoRotate: false,
+          style: {
+            fontSize: 14
+          },
+          content: (obj) => {
+            return obj.name + '\n' + obj.value + '%';
+          },
+        };
+      });
+
+    // setTimeout(() => {
+      chart1.render();
+      chart2.render();
+    // }, 2000)
+    </script>
+  </body>
+</html>
