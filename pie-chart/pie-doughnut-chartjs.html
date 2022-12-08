@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <div id="canvas-holder" style="width:40%">
+		<canvas id="chart-area"></canvas>
+	</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.umd.js" integrity="sha512-gQhCDsnnnUfaRzD8k1L5llCCV6O9HN09zClIzzeJ8OJ9MpGmIlCxm+pdCkqTwqJ4JcjbojFr79rl2F1mzcoLMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+		const canvas1 = document.getElementById('chart-area');
+    const ctx1 = canvas1.getContext('2d');
+
+    let gradient1 = ctx1.createLinearGradient(0, 0, 0, canvas1.height);
+    gradient1.addColorStop(0, 'green');
+    gradient1.addColorStop(.7, 'yellow');
+    gradient1.addColorStop(1, 'orange');
+
+    let gradient2 = ctx1.createLinearGradient(0, 0, 0, canvas1.height);
+    gradient2.addColorStop(0, 'purple');
+    gradient2.addColorStop(.7, 'red');
+    gradient2.addColorStop(1, 'pink');
+
+		var config = {
+      type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [
+						52,
+						48
+					],
+					backgroundColor: [
+						gradient1,
+						gradient2
+					],
+					borderWidth: 0
+				}],
+				labels: [
+					'Red',
+					'Orange'
+				]
+			},
+			options: {
+				responsive: true,
+				animation: {
+					duration: 2000,
+					animateRotate: true,
+					// animateScale: true
+				},
+				plugins: {
+					legend: {
+						display: false
+					},
+					tooltip: {
+						enabled: false
+					}
+				}
+			}
+		};
+    window.onload = function() {
+			var ctx = document.getElementById('chart-area').getContext('2d');
+			window.myPie = new Chart(ctx, config);
+		};
+  </script>
+</body>
+</html>

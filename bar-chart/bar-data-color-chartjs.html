@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <div id="canvas-holder" style="width:40%">
+		<canvas id="chart-area"></canvas>
+	</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.umd.js" integrity="sha512-gQhCDsnnnUfaRzD8k1L5llCCV6O9HN09zClIzzeJ8OJ9MpGmIlCxm+pdCkqTwqJ4JcjbojFr79rl2F1mzcoLMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    var randomScalingFactor = function() {
+			return Math.round(Math.random() * 100);
+		};
+
+    const canvas1 = document.createElement('canvas');
+    canvas1.width = 100;
+    canvas1.height = 100;
+    const ctx1 = canvas1.getContext('2d');
+
+    let gradient1 = ctx1.createLinearGradient(0, 35, 0, 100);
+    gradient1.addColorStop(0, 'green');
+    gradient1.addColorStop(.7, 'yellow');
+    gradient1.addColorStop(1, 'orange');
+
+    let gradient2 = ctx1.createLinearGradient(0, 0, 0, 100);
+    gradient2.addColorStop(0, 'purple');
+    gradient2.addColorStop(.7, 'red');
+    gradient2.addColorStop(1, 'pink');
+
+    let gradient3 = ctx1.createLinearGradient(0, 75, 0, 100);
+    gradient3.addColorStop(0, 'green');
+    gradient3.addColorStop(.7, 'yellow');
+    gradient3.addColorStop(1, 'orange');
+
+    let gradient4 = ctx1.createLinearGradient(0, 95, 0, 100);
+    gradient4.addColorStop(0, 'green');
+    gradient4.addColorStop(.7, 'yellow');
+    gradient4.addColorStop(1, 'orange');
+
+		var config = {
+      type: 'bar',
+			data: {
+        labels: ['January', 'February', 'March', 'April'],
+        datasets: [{
+          label: 'My First Dataset',
+          data: [65, 100, 25, 5],
+          backgroundColor: [
+            gradient1,
+            gradient2,
+            gradient3,
+            gradient4
+          ],
+          yAxisID: 'yAxis',
+          xAxisID: 'xAxis'
+        }]
+			},
+			options: {
+				responsive: true,
+				plugins: {
+					legend: {
+						display: false
+					},
+					tooltip: {
+						enabled: false
+					}
+				},
+        scales: {
+          yAxis: {
+            display: false,
+            grid: {
+              display: false
+            }
+          },
+          xAxis: {
+            grid: {
+              display: false
+            }
+          }
+        }
+			}
+		};
+    window.onload = function() {
+			var ctx = document.getElementById('chart-area').getContext('2d');
+			window.myPie = new Chart(ctx, config);
+		};
+  </script>
+</body>
+</html>
