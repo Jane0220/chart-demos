@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body style="background-color: black;">
+    <div id="container" />
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.2.7/dist/g2.min.js"></script>
+    <script>
+      const data = [
+        { type: '女性 52%', value: 52 },
+        { type: '男性 48%', value: 48 }
+      ];
+      const chart = new G2.Chart({
+        container: 'container',
+        autoFit: true,
+        height: 500
+      });
+      chart.data(data);
+      chart.legend(false);
+      chart.tooltip(false);
+
+      chart.coordinate({
+        type: 'theta',
+        cfg: {
+          radius: 0.8,
+          innerRadius: 0.5,
+        }
+      });
+      chart
+        .interval()
+        .adjust('stack')
+        .position('value')
+        .color('type', ['l(90) 0:#ff00ff 0.2:#7ec2f3 1:#1890ff', 'l(90) 0:#00ff00 0.3:#7e00f3 1:#0090ff'])
+        .label('type', {
+          offset: 50,
+          style: {
+            fill: '#fff',
+            fontSize: 26
+          },
+          labelLine: {
+            style: {
+              stroke: '#fff'
+            }
+          }
+        });
+      chart.render();
+    </script>
+  </body>
+</html>

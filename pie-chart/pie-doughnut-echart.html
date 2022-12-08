@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0; background-color: #000;">
+  <div id="container" style="height: 100%"></div>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+
+    const colors = [
+      '#26CEBA',
+      '#488BFF',
+      '#FFC069',
+      '#FF9C6E',
+      '#81C785',
+      '#B47FEC',
+      '#FF85C0',
+      '#A47D79',
+      '#AED581',
+      '#FEB7B7'
+    ];
+    
+    var option;
+
+    option = {
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          colorBy: 'data',
+          avoidLabelOverlap: false,
+          label: {
+            show: true,
+            fontSize: '30',
+            color: '#fff'
+          },
+          labelLine: {
+            show: true,
+            length: 50,
+            lineStyle: {
+              color: '#fff'
+            }
+          },
+          silent: true,
+          data: [
+            {
+              value: 52,
+              name: '女性 52%',
+              itemStyle: {
+                color: {
+                  type: 'linear',
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [{
+                      offset: 0, color: 'orange' // 0% 处的颜色
+                  }, {
+                      offset: 1, color: 'red' // 100% 处的颜色
+                  }],
+                  global: false // 缺省为 false
+                }
+              }
+            },
+            {
+              value: 48,
+              name: '男性 48%',
+              itemStyle: {
+                color: {
+                  type: 'linear',
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [{
+                      offset: 0, color: 'purple' // 0% 处的颜色
+                  }, {
+                      offset: 1, color: 'blue' // 100% 处的颜色
+                  }],
+                  global: false // 缺省为 false
+                }
+              }
+            }
+          ],
+          // animationType: 'scale',
+          animationType: 'expansion',
+          animationDuration: 3000,
+        }
+      ]
+    };
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>
